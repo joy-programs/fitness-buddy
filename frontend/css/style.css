@@ -1,0 +1,544 @@
+/* ═══════════════════════════════════════════════════════════
+   Fitness Buddy — Custom CSS
+   Complementing Bootstrap 5 with fitness-themed styling.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── CSS Custom Properties (Theme Variables) ─────────────── */
+:root {
+  --fb-primary:       #2563eb;
+  --fb-primary-dark:  #1d4ed8;
+  --fb-secondary:     #7c3aed;
+  --fb-accent:        #059669;
+  --fb-accent-warm:   #f59e0b;
+  --fb-danger:        #dc2626;
+
+  --fb-bg:            #f8fafc;
+  --fb-surface:       #ffffff;
+  --fb-surface-2:     #f1f5f9;
+  --fb-border:        #e2e8f0;
+  --fb-text:          #1e293b;
+  --fb-text-muted:    #64748b;
+  --fb-shadow:        0 4px 24px rgba(37, 99, 235, 0.08);
+  --fb-shadow-hover:  0 8px 32px rgba(37, 99, 235, 0.15);
+  --fb-radius:        14px;
+  --fb-radius-sm:     8px;
+  --fb-transition:    all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --fb-bg:            #0f172a;
+  --fb-surface:       #1e293b;
+  --fb-surface-2:     #162032;
+  --fb-border:        #334155;
+  --fb-text:          #f1f5f9;
+  --fb-text-muted:    #94a3b8;
+  --fb-shadow:        0 4px 24px rgba(0, 0, 0, 0.4);
+  --fb-shadow-hover:  0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-color: var(--fb-bg);
+  color: var(--fb-text);
+  font-family: -apple-system, "Segoe UI", system-ui, Roboto, sans-serif;
+  line-height: 1.65;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ── Navbar ──────────────────────────────────────────────── */
+.fb-navbar {
+  background: linear-gradient(135deg, var(--fb-primary) 0%, var(--fb-secondary) 100%);
+  box-shadow: 0 2px 16px rgba(37, 99, 235, 0.25);
+  padding: 0.6rem 1.5rem;
+}
+.fb-navbar .navbar-brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #fff !important;
+}
+.fb-navbar .nav-link {
+  color: rgba(255,255,255,0.88) !important;
+  font-weight: 500;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--fb-radius-sm);
+  transition: var(--fb-transition);
+}
+.fb-navbar .nav-link:hover,
+.fb-navbar .nav-link.active {
+  color: #fff !important;
+  background: rgba(255,255,255,0.18);
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.fb-card {
+  background: var(--fb-surface);
+  border: 1px solid var(--fb-border);
+  border-radius: var(--fb-radius);
+  box-shadow: var(--fb-shadow);
+  transition: var(--fb-transition);
+}
+.fb-card:hover {
+  box-shadow: var(--fb-shadow-hover);
+  transform: translateY(-2px);
+}
+.fb-card .card-header {
+  background: transparent;
+  border-bottom: 1px solid var(--fb-border);
+  padding: 1rem 1.25rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fb-text);
+}
+
+/* Gradient accent cards */
+.fb-card-primary   { border-left: 4px solid var(--fb-primary); }
+.fb-card-secondary { border-left: 4px solid var(--fb-secondary); }
+.fb-card-accent    { border-left: 4px solid var(--fb-accent); }
+.fb-card-warm      { border-left: 4px solid var(--fb-accent-warm); }
+.fb-card-danger    { border-left: 4px solid var(--fb-danger); }
+
+/* Hero gradient card */
+.fb-hero-card {
+  background: linear-gradient(135deg, var(--fb-primary) 0%, var(--fb-secondary) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--fb-radius);
+  padding: 2rem;
+}
+
+/* ── Stat Badges (dashboard numbers) ─────────────────────── */
+.fb-stat {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--fb-primary);
+}
+[data-theme="dark"] .fb-stat { color: #60a5fa; }
+
+.fb-stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fb-text-muted);
+}
+
+/* ── Progress Bar ────────────────────────────────────────── */
+.fb-progress {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--fb-surface-2);
+  overflow: hidden;
+}
+.fb-progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--fb-primary), var(--fb-secondary));
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Habit Checkboxes ────────────────────────────────────── */
+.habit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--fb-radius-sm);
+  transition: var(--fb-transition);
+  cursor: pointer;
+}
+.habit-item:hover { background: var(--fb-surface-2); }
+.habit-item input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--fb-accent);
+  cursor: pointer;
+}
+.habit-item label {
+  cursor: pointer;
+  font-size: 0.9rem;
+  flex: 1;
+  color: var(--fb-text);
+}
+.habit-item.completed label {
+  text-decoration: line-through;
+  color: var(--fb-text-muted);
+}
+.habit-icon {
+  font-size: 1.2rem;
+  width: 1.8rem;
+  text-align: center;
+}
+
+/* ── Chat Interface ──────────────────────────────────────── */
+#chat-container {
+  height: 460px;
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: var(--fb-surface-2);
+  border-radius: var(--fb-radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  scroll-behavior: smooth;
+}
+
+.chat-bubble {
+  max-width: 82%;
+  padding: 0.7rem 1rem;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  word-break: break-word;
+  animation: bubbleIn 0.25s ease;
+}
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* User bubble — right aligned */
+.chat-user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--fb-primary), var(--fb-secondary));
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+/* AI bubble — left aligned */
+.chat-ai {
+  align-self: flex-start;
+  background: var(--fb-surface);
+  color: var(--fb-text);
+  border: 1px solid var(--fb-border);
+  border-bottom-left-radius: 4px;
+}
+[data-theme="dark"] .chat-ai {
+  background: #1e293b;
+  border-color: var(--fb-border);
+}
+
+/* Typing indicator */
+.typing-indicator {
+  align-self: flex-start;
+  background: var(--fb-surface);
+  border: 1px solid var(--fb-border);
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  padding: 0.7rem 1rem;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fb-text-muted);
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%           { transform: translateY(-6px); }
+}
+
+/* Chat input row */
+#chat-input-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+#chat-input {
+  flex: 1;
+  background: var(--fb-surface);
+  border: 1px solid var(--fb-border);
+  color: var(--fb-text);
+  border-radius: var(--fb-radius-sm);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  transition: var(--fb-transition);
+}
+#chat-input:focus {
+  outline: none;
+  border-color: var(--fb-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-fb-primary {
+  background: linear-gradient(135deg, var(--fb-primary), var(--fb-secondary));
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--fb-radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--fb-transition);
+}
+.btn-fb-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-fb-primary:active {
+  transform: translateY(0);
+}
+.btn-fb-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-fb-outline {
+  background: transparent;
+  border: 2px solid var(--fb-primary);
+  color: var(--fb-primary);
+  padding: 0.45rem 1.1rem;
+  border-radius: var(--fb-radius-sm);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--fb-transition);
+}
+.btn-fb-outline:hover {
+  background: var(--fb-primary);
+  color: #fff;
+}
+
+/* ── Quick Action Buttons (Dashboard) ───────────────────── */
+.quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--fb-surface);
+  border: 1px solid var(--fb-border);
+  border-radius: var(--fb-radius);
+  padding: 1rem 0.75rem;
+  cursor: pointer;
+  transition: var(--fb-transition);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fb-text);
+  text-align: center;
+}
+.quick-action-btn:hover {
+  border-color: var(--fb-primary);
+  background: rgba(37, 99, 235, 0.06);
+  transform: translateY(-2px);
+  box-shadow: var(--fb-shadow);
+}
+.quick-action-btn .qa-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+/* ── Workout Cards ───────────────────────────────────────── */
+.workout-section {
+  background: var(--fb-surface-2);
+  border-radius: var(--fb-radius-sm);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.workout-section h6 {
+  font-weight: 700;
+  color: var(--fb-primary);
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.exercise-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--fb-border);
+}
+.exercise-row:last-child { border-bottom: none; }
+.exercise-name { font-weight: 600; font-size: 0.9rem; }
+.exercise-meta { font-size: 0.8rem; color: var(--fb-text-muted); }
+.exercise-safety {
+  font-size: 0.78rem;
+  color: var(--fb-accent-warm);
+  font-style: italic;
+}
+
+/* ── Meal Cards ──────────────────────────────────────────── */
+.meal-card {
+  background: var(--fb-surface);
+  border: 1px solid var(--fb-border);
+  border-radius: var(--fb-radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  transition: var(--fb-transition);
+}
+.meal-card:hover { border-color: var(--fb-accent); }
+.meal-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.15rem; }
+.meal-desc { font-size: 0.82rem; color: var(--fb-text-muted); }
+.meal-protein { font-size: 0.78rem; color: var(--fb-accent); font-weight: 600; }
+.meal-section-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fb-secondary);
+  margin: 0.8rem 0 0.4rem;
+}
+
+/* ── BMI Indicator ───────────────────────────────────────── */
+.bmi-value {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.bmi-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+.bmi-normal    { background: #d1fae5; color: #065f46; }
+.bmi-underweight{ background: #dbeafe; color: #1e40af; }
+.bmi-overweight { background: #fef3c7; color: #92400e; }
+.bmi-obese     { background: #fee2e2; color: #991b1b; }
+
+/* ── Motivation Card ─────────────────────────────────────── */
+.motivation-card {
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+  border-left: 4px solid var(--fb-primary);
+  padding: 1.25rem;
+  border-radius: var(--fb-radius-sm);
+  font-style: italic;
+  color: var(--fb-text);
+  line-height: 1.7;
+}
+[data-theme="dark"] .motivation-card {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2e1b5f 100%);
+  color: var(--fb-text);
+}
+.motivation-tip {
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--fb-text-muted);
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--fb-border);
+}
+
+/* ── Streak Badge ────────────────────────────────────────── */
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ── Profile Form ────────────────────────────────────────── */
+.fb-form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--fb-text-muted);
+  margin-bottom: 0.25rem;
+}
+.fb-form-control,
+.fb-form-select {
+  background: var(--fb-surface);
+  border: 1px solid var(--fb-border);
+  color: var(--fb-text);
+  border-radius: var(--fb-radius-sm);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.9rem;
+  width: 100%;
+  transition: var(--fb-transition);
+}
+.fb-form-control:focus,
+.fb-form-select:focus {
+  outline: none;
+  border-color: var(--fb-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ── Skeleton Loading ────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--fb-surface-2) 25%,
+    var(--fb-border) 50%,
+    var(--fb-surface-2) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--fb-radius-sm);
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  from { background-position: 200% center; }
+  to   { background-position: -200% center; }
+}
+.skeleton-text  { height: 14px; margin-bottom: 8px; border-radius: 4px; }
+.skeleton-title { height: 22px; width: 60%; margin-bottom: 12px; border-radius: 4px; }
+.skeleton-box   { height: 80px; border-radius: var(--fb-radius-sm); }
+
+/* ── Section Views ───────────────────────────────────────── */
+.fb-view { display: none; }
+.fb-view.active { display: block; }
+
+/* ── Alert Notifications ─────────────────────────────────── */
+.fb-alert {
+  padding: 0.75rem 1rem;
+  border-radius: var(--fb-radius-sm);
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fb-alert-success { background: #d1fae5; color: #065f46; border-left: 3px solid #059669; }
+.fb-alert-error   { background: #fee2e2; color: #991b1b; border-left: 3px solid #dc2626; }
+.fb-alert-info    { background: #dbeafe; color: #1e40af; border-left: 3px solid #2563eb; }
+
+/* ── Dark Mode Toggle ────────────────────────────────────── */
+#dark-mode-toggle {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: var(--fb-radius-sm);
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: var(--fb-transition);
+}
+#dark-mode-toggle:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── Scrollbar Styling ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--fb-surface-2); }
+::-webkit-scrollbar-thumb {
+  background: var(--fb-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--fb-text-muted); }
+
+/* ── Responsive Adjustments ──────────────────────────────── */
+@media (max-width: 768px) {
+  .fb-hero-card { padding: 1.5rem 1rem; }
+  #chat-container { height: 360px; }
+  .chat-bubble { max-width: 92%; }
+  .bmi-value { font-size: 2.2rem; }
+}

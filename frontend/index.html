@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Buddy — AI Powered by IBM Granite</title>
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav class="fb-navbar navbar navbar-expand-md">
+  <div class="container-fluid">
+    <span class="navbar-brand">🏋️ Fitness Buddy</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#mainNav" style="border-color:rgba(255,255,255,0.4)">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-dashboard">📊 Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-chat">🤖 AI Coach</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-workouts">🏋️ Workouts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-meals">🥗 Meals</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-habits">✅ Habits</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-motivation">⚡ Motivation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-bmi">📏 BMI</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-view="view-profile">👤 Profile</a>
+        </li>
+      </ul>
+      <button id="dark-mode-toggle" title="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     MAIN CONTENT AREA
+════════════════════════════════════════════ -->
+<div class="container-fluid py-4 px-3 px-md-4" style="max-width:1100px;margin:0 auto">
+
+  <!-- ─── DASHBOARD VIEW ─────────────────── -->
+  <div id="view-dashboard" class="fb-view">
+    <div id="dashboard-content"></div>
+  </div>
+
+
+  <!-- ─── AI CHAT VIEW ────────────────────── -->
+  <div id="view-chat" class="fb-view">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="fb-card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>🤖 AI Fitness Coach — Powered by IBM Granite</span>
+            <span style="font-size:0.75rem;color:var(--fb-text-muted)">Ask anything about fitness!</span>
+          </div>
+          <div class="p-3">
+            <!-- Chat messages -->
+            <div id="chat-container">
+              <div class="chat-bubble chat-ai">
+                👋 Hi! I'm <strong>Fitness Buddy</strong>, your AI fitness coach powered by IBM Granite!<br><br>
+                I can help you with personalised home workouts, nutrition tips, habit building,
+                and daily motivation. Tell me about your fitness goals or just ask me anything! 💪
+              </div>
+            </div>
+            <!-- Input row -->
+            <div id="chat-input-row">
+              <input type="text" id="chat-input" placeholder="Ask about workouts, nutrition, habits…"
+                     autocomplete="off">
+              <button class="btn-fb-primary" id="chat-send-btn" onclick="sendChatMessage()">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Quick prompts sidebar -->
+      <div class="col-lg-4">
+        <div class="fb-card">
+          <div class="card-header">💡 Quick Questions</div>
+          <div class="p-3 d-flex flex-column gap-2">
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('Give me a 20-minute beginner home workout with no equipment')">
+              🏠 Beginner home workout
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('What should I eat for breakfast if I want to lose weight? Include Indian food options.')">
+              🌅 Healthy breakfast ideas
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('I feel lazy and unmotivated today. Help me get started.')">
+              ⚡ I feel unmotivated
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('How many times a week should I work out as a beginner?')">
+              📅 How often to workout?
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('What are good high-protein vegetarian Indian foods?')">
+              🥗 High-protein veg foods
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('My knee hurts during squats. What should I do?')">
+              🦵 Knee pain during squats
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('What are simple exercises I can do in my hostel room?')">
+              🛏️ Hostel room exercises
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('Help me build a healthy morning routine')">
+              🌄 Morning routine tips
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── WORKOUT GENERATOR VIEW ──────────── -->
+  <div id="view-workouts" class="fb-view">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="fb-card">
+          <div class="card-header">⚙️ Workout Settings</div>
+          <div class="p-3">
+            <div class="mb-3">
+              <label class="fb-form-label">Fitness Level</label>
+              <select id="w-level" class="fb-form-select">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Primary Goal</label>
+              <select id="w-goal" class="fb-form-select">
+                <option value="general_fitness">General Fitness</option>
+                <option value="weight_loss">Weight Loss</option>
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="stamina">Better Stamina</option>
+                <option value="flexibility">Flexibility</option>
+                <option value="active_lifestyle">Active Lifestyle</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Duration (minutes)</label>
+              <select id="w-duration" class="fb-form-select">
+                <option value="15">15 min</option>
+                <option value="20">20 min</option>
+                <option value="30" selected>30 min</option>
+                <option value="45">45 min</option>
+                <option value="60">60 min</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Available Equipment</label>
+              <select id="w-equipment" class="fb-form-select">
+                <option value="no_equipment">No Equipment</option>
+                <option value="resistance_bands">Resistance Bands</option>
+                <option value="dumbbells">Dumbbells</option>
+                <option value="basic_home">Basic Home Setup</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Modification Request (optional)</label>
+              <input type="text" id="w-modification" class="fb-form-control"
+                     placeholder="e.g. no jumping, more core, easier…">
+            </div>
+            <button class="btn-fb-primary w-100" id="generate-workout-btn"
+                    onclick="generateWorkout()">
+              🏋️ Generate Workout
+            </button>
+            <p class="mt-2 mb-0" style="font-size:0.75rem;color:var(--fb-text-muted)">
+              Settings auto-filled from your profile when available.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="fb-card">
+          <div class="card-header">💪 Your Personalised Workout Plan</div>
+          <div class="p-3" id="workout-result">
+            <div class="text-center py-4" style="color:var(--fb-text-muted)">
+              <div style="font-size:3rem">🏋️</div>
+              <p class="mt-2">Configure your settings and click <strong>Generate Workout</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── MEAL SUGGESTIONS VIEW ───────────── -->
+  <div id="view-meals" class="fb-view">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="fb-card">
+          <div class="card-header">⚙️ Meal Preferences</div>
+          <div class="p-3">
+            <div class="mb-3">
+              <label class="fb-form-label">Dietary Preference</label>
+              <select id="m-diet" class="fb-form-select">
+                <option value="non_vegetarian">Non-Vegetarian</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="vegan">Vegan</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Fitness Goal</label>
+              <select id="m-goal" class="fb-form-select">
+                <option value="general_fitness">General Fitness</option>
+                <option value="weight_loss">Weight Loss</option>
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="stamina">Better Stamina</option>
+                <option value="flexibility">Flexibility</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Special Request (optional)</label>
+              <input type="text" id="m-special" class="fb-form-control"
+                     placeholder="e.g. high protein, hostel-friendly, quick…">
+            </div>
+            <button class="btn-fb-primary w-100" id="suggest-meals-btn"
+                    onclick="suggestMeals()">
+              🥗 Suggest Meals
+            </button>
+            <div class="mt-3" style="font-size:0.75rem;color:var(--fb-text-muted)">
+              <strong>⚠️ Disclaimer:</strong> These are general healthy eating suggestions, not
+              clinical nutrition advice. Consult a registered dietitian for personalised guidance.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="fb-card">
+          <div class="card-header">🍽️ Today's Meal Ideas</div>
+          <div class="p-3" id="meals-result">
+            <div class="text-center py-4" style="color:var(--fb-text-muted)">
+              <div style="font-size:3rem">🥗</div>
+              <p class="mt-2">Select your preferences and click <strong>Suggest Meals</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── HABIT TRACKER VIEW ──────────────── -->
+  <div id="view-habits" class="fb-view">
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="fb-card">
+          <div class="card-header">
+            ✅ Today's Habits
+            <span id="today-date-display" style="font-weight:400;font-size:0.82rem;float:right;color:var(--fb-text-muted)"></span>
+          </div>
+          <div class="p-3">
+            <div id="habits-alert"></div>
+            <div id="habits-container">
+              <div class="text-center py-4" style="color:var(--fb-text-muted)">
+                <div style="font-size:3rem">✅</div>
+                <p class="mt-2">Create a profile to start tracking habits</p>
+                <button class="btn-fb-primary" onclick="showView('view-profile')">Create Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="fb-card">
+          <div class="card-header">ℹ️ About Habit Tracking</div>
+          <div class="p-3">
+            <p style="font-size:0.9rem">Building small daily habits is the most powerful way to achieve fitness goals.
+            Track these 5 keystone habits every day:</p>
+            <ul style="font-size:0.88rem;line-height:2">
+              <li>🏋️ <strong>Workout</strong> — Any exercise counts: home workout, walk, yoga</li>
+              <li>💧 <strong>Water Goal</strong> — Aim for at least 2 litres daily</li>
+              <li>🥗 <strong>Healthy Meal</strong> — Eat one mindful, nutritious meal</li>
+              <li>😴 <strong>Good Sleep</strong> — 7-8 hours of quality sleep</li>
+              <li>🚶 <strong>Daily Movement</strong> — A short walk, stretch, or movement break</li>
+            </ul>
+            <div class="fb-alert fb-alert-info mt-2">
+              <strong>💡 Consistency beats intensity.</strong>
+              Doing something small every day beats an intense session once a week.
+            </div>
+          </div>
+        </div>
+        <!-- Ask Buddy about habits -->
+        <div class="fb-card mt-3">
+          <div class="card-header">🤖 Get Habit Advice</div>
+          <div class="p-3">
+            <p style="font-size:0.88rem;color:var(--fb-text-muted)">
+              Struggling with consistency? Ask your AI fitness coach for personalised habit tips.
+            </p>
+            <button class="btn-fb-primary w-100"
+              onclick="sendQuickPrompt('I am struggling with building consistent workout habits. What tips do you have for someone who keeps skipping workouts?'); showView('view-chat')">
+              💬 Ask About Habits
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── MOTIVATION VIEW ──────────────────── -->
+  <div id="view-motivation" class="fb-view">
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-7">
+        <div class="fb-card mb-4">
+          <div class="card-header">⚡ Daily Fitness Motivation</div>
+          <div class="p-3">
+            <div id="motivation-result">
+              <div class="text-center py-3" style="color:var(--fb-text-muted)">
+                Click below to get your daily dose of motivation!
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+              <button class="btn-fb-primary" id="motivate-btn" onclick="getMotivation()">
+                ⚡ Motivate Me!
+              </button>
+              <button class="btn-fb-outline"
+                onclick="getMotivation('I have been skipping workouts lately and need help getting back on track')">
+                😞 Back on Track
+              </button>
+              <button class="btn-fb-outline"
+                onclick="getMotivation('I want to stay consistent with my fitness journey')">
+                🎯 Stay Consistent
+              </button>
+              <button class="btn-fb-outline"
+                onclick="getMotivation('I completed my workout today and feeling great!')">
+                🎉 I Did It!
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="fb-card">
+          <div class="card-header">💬 Need More Support?</div>
+          <div class="p-3 d-flex flex-column gap-2">
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('I keep failing my fitness goals. How do I stay motivated and stop giving up?'); showView('view-chat')">
+              😔 I keep giving up on my goals
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('I am a busy student and cannot find time to exercise. What are realistic options for me?'); showView('view-chat')">
+              📚 Too busy to workout
+            </button>
+            <button class="btn-fb-outline text-start"
+              onclick="sendQuickPrompt('What are some small healthy habits I can start today that will make a big difference over time?'); showView('view-chat')">
+              🌱 Small habits, big impact
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── BMI CALCULATOR VIEW ─────────────── -->
+  <div id="view-bmi" class="fb-view">
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-5">
+        <div class="fb-card">
+          <div class="card-header">📏 BMI Calculator</div>
+          <div class="p-3">
+            <div id="bmi-alert"></div>
+            <div class="mb-3">
+              <label class="fb-form-label">Height (cm)</label>
+              <input type="number" id="bmi-height" class="fb-form-control"
+                     placeholder="e.g. 170" min="50" max="300">
+            </div>
+            <div class="mb-3">
+              <label class="fb-form-label">Weight (kg)</label>
+              <input type="number" id="bmi-weight" class="fb-form-control"
+                     placeholder="e.g. 65" min="10" max="500">
+            </div>
+            <button class="btn-fb-primary w-100" onclick="calculateBMI()">
+              📏 Calculate BMI
+            </button>
+          </div>
+        </div>
+        <div class="fb-card mt-3">
+          <div class="card-header">📋 BMI Categories</div>
+          <div class="p-3">
+            <table class="w-100" style="font-size:0.88rem;border-collapse:collapse">
+              <tr>
+                <td style="padding:0.4rem 0.6rem"><span class="bmi-category bmi-underweight">Underweight</span></td>
+                <td style="padding:0.4rem 0.6rem;color:var(--fb-text-muted)">BMI &lt; 18.5</td>
+              </tr>
+              <tr>
+                <td style="padding:0.4rem 0.6rem"><span class="bmi-category bmi-normal">Normal weight</span></td>
+                <td style="padding:0.4rem 0.6rem;color:var(--fb-text-muted)">BMI 18.5 – 24.9</td>
+              </tr>
+              <tr>
+                <td style="padding:0.4rem 0.6rem"><span class="bmi-category bmi-overweight">Overweight</span></td>
+                <td style="padding:0.4rem 0.6rem;color:var(--fb-text-muted)">BMI 25 – 29.9</td>
+              </tr>
+              <tr>
+                <td style="padding:0.4rem 0.6rem"><span class="bmi-category bmi-obese">Obese</span></td>
+                <td style="padding:0.4rem 0.6rem;color:var(--fb-text-muted)">BMI ≥ 30</td>
+              </tr>
+            </table>
+            <div class="fb-alert fb-alert-info mt-3">
+              ⚠️ BMI is a basic screening tool only. It does not account for muscle mass, age,
+              or body composition. Consult a healthcare professional for personalised assessment.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="fb-card">
+          <div class="card-header">📊 Your Result</div>
+          <div class="p-3" id="bmi-result">
+            <div class="text-center py-4" style="color:var(--fb-text-muted)">
+              <div style="font-size:3rem">📏</div>
+              <p class="mt-2">Enter your height and weight to calculate your BMI</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── PROFILE VIEW ────────────────────── -->
+  <div id="view-profile" class="fb-view">
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-8">
+        <div class="fb-card">
+          <div class="card-header">
+            👤 My Fitness Profile
+            <span style="font-size:0.78rem;font-weight:400;color:var(--fb-text-muted);float:right">
+              Personalises all AI responses
+            </span>
+          </div>
+          <div class="p-4">
+            <div id="profile-alert"></div>
+            <form id="profile-form" novalidate>
+              <div class="row g-3">
+                <!-- Name -->
+                <div class="col-12">
+                  <label class="fb-form-label">Your Name</label>
+                  <input type="text" id="p-name" class="fb-form-control"
+                         placeholder="Enter your name">
+                </div>
+                <!-- Age / Gender -->
+                <div class="col-md-4">
+                  <label class="fb-form-label">Age</label>
+                  <input type="number" id="p-age" class="fb-form-control"
+                         placeholder="e.g. 22" min="10" max="100">
+                </div>
+                <div class="col-md-4">
+                  <label class="fb-form-label">Gender</label>
+                  <select id="p-gender" class="fb-form-select">
+                    <option value="">Prefer not to say</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <!-- Height / Weight -->
+                <div class="col-md-4">
+                  <label class="fb-form-label">Height (cm)</label>
+                  <input type="number" id="p-height" class="fb-form-control"
+                         placeholder="e.g. 170" min="50" max="300">
+                </div>
+                <div class="col-md-4">
+                  <label class="fb-form-label">Weight (kg)</label>
+                  <input type="number" id="p-weight" class="fb-form-control"
+                         placeholder="e.g. 65" min="10" max="500">
+                </div>
+                <!-- Fitness Level -->
+                <div class="col-md-4">
+                  <label class="fb-form-label">Fitness Level</label>
+                  <select id="p-level" class="fb-form-select">
+                    <option value="beginner">🌱 Beginner</option>
+                    <option value="intermediate">⚡ Intermediate</option>
+                    <option value="advanced">🏆 Advanced</option>
+                  </select>
+                </div>
+                <!-- Activity Level -->
+                <div class="col-md-4">
+                  <label class="fb-form-label">Daily Activity Level</label>
+                  <select id="p-activity" class="fb-form-select">
+                    <option value="sedentary">Sedentary (desk job / student)</option>
+                    <option value="lightly_active">Lightly Active</option>
+                    <option value="moderately_active">Moderately Active</option>
+                    <option value="very_active">Very Active</option>
+                  </select>
+                </div>
+                <!-- Fitness Goal -->
+                <div class="col-md-6">
+                  <label class="fb-form-label">Primary Fitness Goal</label>
+                  <select id="p-goal" class="fb-form-select">
+                    <option value="general_fitness">General Fitness</option>
+                    <option value="weight_loss">Weight Loss</option>
+                    <option value="muscle_gain">Muscle Gain</option>
+                    <option value="stamina">Better Stamina</option>
+                    <option value="flexibility">Flexibility</option>
+                    <option value="active_lifestyle">Active Lifestyle</option>
+                  </select>
+                </div>
+                <!-- Workout Duration -->
+                <div class="col-md-3">
+                  <label class="fb-form-label">Session Duration (min)</label>
+                  <select id="p-duration" class="fb-form-select">
+                    <option value="15">15 min</option>
+                    <option value="20">20 min</option>
+                    <option value="30" selected>30 min</option>
+                    <option value="45">45 min</option>
+                    <option value="60">60 min</option>
+                  </select>
+                </div>
+                <!-- Equipment -->
+                <div class="col-md-3">
+                  <label class="fb-form-label">Available Equipment</label>
+                  <select id="p-equipment" class="fb-form-select">
+                    <option value="no_equipment">No Equipment</option>
+                    <option value="resistance_bands">Resistance Bands</option>
+                    <option value="dumbbells">Dumbbells</option>
+                    <option value="basic_home">Basic Home Setup</option>
+                  </select>
+                </div>
+                <!-- Dietary Preference -->
+                <div class="col-md-12">
+                  <label class="fb-form-label">Dietary Preference</label>
+                  <select id="p-diet" class="fb-form-select">
+                    <option value="non_vegetarian">Non-Vegetarian</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                  </select>
+                </div>
+                <!-- Save button -->
+                <div class="col-12 mt-2">
+                  <button type="button" class="btn-fb-primary" onclick="saveProfile()">
+                    💾 Save Profile
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════════════
+     IBM Granite Attribution Footer
+════════════════════════════════════════════ -->
+<footer style="border-top:1px solid var(--fb-border);margin-top:3rem;padding:1.25rem;text-align:center;font-size:0.78rem;color:var(--fb-text-muted)">
+  <strong>Fitness Buddy</strong> is powered by
+  <strong>IBM watsonx.ai</strong> and the <strong>IBM Granite</strong> language model.<br>
+  This application provides general fitness and wellness information only — it is not a medical service.
+  Always consult a qualified healthcare professional for medical advice.<br>
+  <span style="opacity:0.6;margin-top:0.4rem;display:block">Made with IBM Bob · Built with FastAPI + Bootstrap 5</span>
+</footer>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- App JS — loads after DOM is ready -->
+<script src="js/app.js"></script>
+
+<!-- Set today's date in habit tracker header -->
+<script>
+  const todayEl = document.getElementById("today-date-display");
+  if (todayEl) {
+    todayEl.textContent = new Date().toLocaleDateString("en-IN", {
+      weekday:"long", year:"numeric", month:"long", day:"numeric"
+    });
+  }
+</script>
+
+</body>
+</html>
