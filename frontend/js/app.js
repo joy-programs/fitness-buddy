@@ -4,10 +4,16 @@
    ══════════════════════════════════════════════════════════ */
 
 // ─────────────────────────────────────────────────────────
-//  API Configuration — change BASE_URL for production
+//  API Configuration
+//  BASE_URL is empty so all requests use a relative path
+//  (e.g. /api/chat). This works regardless of whether you
+//  open the app at 127.0.0.1:8000, localhost:8000, or a
+//  LAN IP — no hardcoded hostname needed.
+//  For a separate frontend deployment, set BASE_URL to the
+//  backend's full URL, e.g. "https://my-api.example.com".
 // ─────────────────────────────────────────────────────────
 const API = {
-  BASE_URL: "http://localhost:8000",
+  BASE_URL: "",   // empty = same origin (relative URLs)
 
   // Build full URL for an API path
   url(path) {
